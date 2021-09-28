@@ -1,0 +1,8 @@
+# Ignore host config file because it contains creds
+lex/neo4j/config.ini
+
+lex/data/*
+*.log
+.idea/*
+.venv/*
+__pycache__
