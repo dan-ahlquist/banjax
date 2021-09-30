@@ -1,5 +1,8 @@
 import configparser
+import logging
 from dataclasses import dataclass
+
+logging.basicConfig(filename='host_config.log', level=logging.DEBUG)
 
 
 @dataclass
@@ -15,7 +18,8 @@ class ConfigLoader:
 
     def __init__(self):
         parser = configparser.ConfigParser()
-        parser.read('lex/neo4j/config.ini')
+        read = parser.read('lex/neo4j/config.ini')
+        logging.debug(f'Config files read: {read}')
 
         uri = parser.get('Neo4jHost', 'uri')
         user = parser.get('Neo4jHost', 'user')
