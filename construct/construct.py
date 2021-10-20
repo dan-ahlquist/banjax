@@ -17,6 +17,12 @@ def construct():
 
     print(str(puz))
 
+    puz2 = puz.mutate(0, 'cat')
+    print(str(puz2))
+
+    puz3 = puz2.mutate(1, 'ant')
+    print(str(puz3))
+
 
 if __name__ == '__main__':
     construct()
