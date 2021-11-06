@@ -2,6 +2,8 @@ import logging
 
 from neo4j import GraphDatabase
 
+from lex.neo4j.host_config import ConfigLoader
+
 logging.basicConfig(filename='phrase_dao.log', level=logging.DEBUG)
 
 
@@ -37,10 +39,18 @@ def match(tx, pattern):
 
 
 # TODO merge LexLoader into this.
-# TODO do config retrieval here.
 class PhraseDao:
 
-    def __init__(self, uri, user, password):
+    def __init__(self):
+        host_config = ConfigLoader().host_config
+        if host_config is None:
+            logging.error('No host config found. It should be in /lex/neo4j/config.ini')
+            return
+
+        uri = host_config.uri
+        user = host_config.user
+        password = host_config.password
+
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
 
     def match(self, pattern):

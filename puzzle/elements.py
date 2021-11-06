@@ -47,7 +47,7 @@ class Puzzle:
         return self.grid[idx]
 
     def get_word(self, idx):
-        return self.__string_from(self.words[idx])
+        return self.string_from(self.words[idx])
 
     def get_incomplete_words(self):
         incompletes = [w for w in self.words if self.__incomplete(w)]
@@ -62,7 +62,7 @@ class Puzzle:
                 return True
         return False
 
-    def __string_from(self, word):
+    def string_from(self, word):
         result = ''
         for idx in word.grid_indices:
             result += self.grid[idx]
@@ -78,9 +78,12 @@ class Puzzle:
             grid_copy[grid_idx] = c
         return Puzzle(grid_copy, self.words)
 
+    def complete(self):
+        return BLANK not in self.grid
+
     def __str__(self):
         result = ''
         words_sorted = sorted(self.words, key=lambda word: word.sort_key())
         for w in words_sorted:
-            result += f'{w.number} {w.direction.name} {self.__string_from(w)}\n'
+            result += f'{w.number} {w.direction.name} {self.string_from(w)}\n'
         return result

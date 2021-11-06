@@ -1,6 +1,20 @@
+from dataclasses import dataclass
 from typing import List
 
+from lex.neo4j.phrase_dao import PhraseDao
 from puzzle.elements import Word, Dir, Puzzle, BLANK
+
+
+@dataclass
+class Change:
+    word: Word
+    value: str
+
+
+def get_completions_for(word: Word, puzzle: Puzzle):
+    current = puzzle.string_from(word)
+    dao = PhraseDao()
+    return dao.match(current)
 
 
 def construct():
@@ -14,14 +28,6 @@ def construct():
     initial_grid: List[chr] = list(BLANK * 8)
 
     puz = Puzzle(initial_grid, [acr_1, dn_2])
-
-    print(str(puz))
-
-    puz2 = puz.mutate(0, 'cat')
-    print(str(puz2))
-
-    puz3 = puz2.mutate(1, 'ant')
-    print(str(puz3))
 
 
 if __name__ == '__main__':
