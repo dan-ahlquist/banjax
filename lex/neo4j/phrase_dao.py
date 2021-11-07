@@ -1,6 +1,7 @@
 import logging
 
 from neo4j import GraphDatabase
+from typing import List
 
 from lex.neo4j.host_config import ConfigLoader
 
@@ -25,7 +26,7 @@ def match(tx, pattern):
 
     query = "MATCH (p:Phrase {length:%s})" % length
 
-    conditions: list[str] = [build_condition(c) for c in get_constraints(pattern)]
+    conditions: List[str] = [build_condition(c) for c in get_constraints(pattern)]
 
     if conditions:  # not empty
         query += ' WHERE '
@@ -38,7 +39,6 @@ def match(tx, pattern):
     return [record["p.text"] for record in results]
 
 
-# TODO merge LexLoader into this.
 class PhraseDao:
 
     def __init__(self):
